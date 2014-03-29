@@ -6,39 +6,52 @@ using namespace std;
 
 bool Board2048::moveALL(dir where){
 
-	if (where == LEFT) {
+	dir FROM = where;
+	dir TO;
 
-		for(int j = 0; j < SIZE; j++)
-		{
-			Grid *now = selectGrid(0, j);
-			Grid *neighbor;
-			for (int i = 0; i < SIZE-1; i++){
+	if (where ==  LEFT) TO = RIGHT;
+	if (where == RIGHT) TO =  LEFT;
+	if (where ==    UP) TO =  DOWN;
+	if (where ==  DOWN) TO =    UP;
 
-				neighbor = now->getNeighbor(RIGHT);
+	for(int k = 0; k < SIZE; k++)
+	{
+		Grid *now, *neighbor;
+
+		if (where ==  LEFT) now = selectGrid(     0, k);
+		if (where == RIGHT) now = selectGrid(SIZE-1, k);
+		if (where ==    UP) now = selectGrid(k     , 0);
+		if (where ==  DOWN) now = selectGrid(k     , SIZE-1);
 				
+		while(1){
+			neighbor = now->getNeighbor(TO);
+			if (!neighbor) {
 				cout << "now = " << now << endl;
-				cout << "neighbor = " << neighbor << endl;
-				
-				cout << "now value = " << now->getValue() << endl;
-				cout << "neighbor value = " << neighbor->getValue() << endl;
-
-				if (neighbor->canMove(LEFT))
-				{
-					move(now, neighbor);
-					cout << "move!" << endl;
-				}
-
-				else
-				{
-					if (neighbor->getValue() == now->getValue()){
-						if (merge(now, neighbor))
-							cout << "merge!" << endl;
-					}
-				}
-				now = neighbor;
-				cout << endl << endl << endl;
-				
+				break;
 			}
+
+			//////TEST USE
+			/*
+			cout << "now = " << now << endl;
+			cout << "neighbor = " << neighbor << endl;
+			
+			cout << "now value = " << now->getValue() << endl;
+			cout << "neighbor value = " << neighbor->getValue() << endl;
+			*/
+			//////////////
+			
+			if (neighbor->canMove(FROM))
+			{
+				move(now, neighbor);
+			}
+
+			else
+			{
+				if (neighbor->getValue() == now->getValue()){
+					merge(now, neighbor);
+				}
+			}
+			now = neighbor;				
 		}
 	}
 }  
@@ -83,10 +96,10 @@ Board2048::Board2048(int array[]){
 			selectGrid(i, j)->setNeighbor(RIGHT, selectGrid(i+1, j));
 		if (i-1 >= 0) 
 			selectGrid(i, j)->setNeighbor(LEFT , selectGrid(i-1, j));
-		if (j+1 < SIZE) 
-			selectGrid(i, j)->setNeighbor(UP   , selectGrid(i, j+1));		
 		if (j-1 >= 0) 
-			selectGrid(i, j)->setNeighbor(DOWN , selectGrid(i, j-1));
+			selectGrid(i, j)->setNeighbor(UP   , selectGrid(i, j-1));		
+		if (j+1 < SIZE) 
+			selectGrid(i, j)->setNeighbor(DOWN , selectGrid(i, j+1));
 
 
 	}

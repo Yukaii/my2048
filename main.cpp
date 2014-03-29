@@ -11,8 +11,6 @@ int main(int argc, char* argv[]){
 	Board2048 *board = new Board2048(array);
 	board->print();
 
-	board->moveALL(LEFT);
+	board->moveALL(UP);
 	board->print();
-
-
 }

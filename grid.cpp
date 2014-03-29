@@ -2,6 +2,7 @@
 #include "grid.h"
 #include <iostream>
 #include <iomanip>
+#include <time.h>
 
 using namespace std;
 
@@ -9,6 +10,8 @@ bool Board2048::moveALL(dir where){
 
 	dir FROM = where;
 	dir TO;
+
+	bool change_flag = false;
 
 	if (where ==  LEFT) TO = RIGHT;
 	if (where == RIGHT) TO =  LEFT;
@@ -44,17 +47,29 @@ bool Board2048::moveALL(dir where){
 			if (neighbor->canMove(FROM))
 			{
 				move(now, neighbor);
+				change_flag = true;
 			}
 
 			else
 			{
 				if (neighbor->getValue() == now->getValue()){
 					merge(now, neighbor);
+					change_flag = true;
 				}
 			}
 			now = neighbor;				
 		}
 	}
+
+	if (change_flag) {
+		generate();
+		return true;
+	}
+	else if (isEnd()){
+		return false;
+	}
+	return true;
+
 }  
 
 bool Board2048::merge(Grid* here, Grid* there){
@@ -87,7 +102,45 @@ void Board2048::print(){
 	cout << endl;
 }
 
-Board2048::Board2048(int array[]){
+bool Board2048::isEnd(){
+	for(int j = 0; j < SIZE; j++){
+	for(int i = 0; i < SIZE; i++){
+		if(selectGrid(i, j)->getValue() == selectGrid(i, j)->getNeighbor(LEFT)->getValue())
+			return false;
+		if(selectGrid(i, j)->getValue() == selectGrid(i, j)->getNeighbor(RIGHT)->getValue())
+			return false;
+		if(selectGrid(i, j)->getValue() == selectGrid(i, j)->getNeighbor(UP)->getValue())
+			return false;
+		if(selectGrid(i, j)->getValue() == selectGrid(i, j)->getNeighbor(DOWN)->getValue())
+			return false;					
+		if(selectGrid(i, j)->getValue() == 0) return false;
+	}
+	}
+	return true;
+}
+
+int twopower(int n){
+	int two = 1;
+	for (int i = 0;i < n; i++){
+		two *= 2;
+	}
+	return two;
+}
+
+void Board2048::reset(){
+	int array[SIZE * SIZE] = {0};
+
+	srand(time(NULL));
+
+	//3 to 6 filled grid
+	int num = rand()%4 + 3;
+
+	//fill theme
+	for (int i = 0; i < num; i++){
+		array[rand()%(SIZE*SIZE)] = twopower(rand()%4+1);
+	}
+
+
 	for (int j = 0; j < SIZE; j++){
 	for (int i = 0; i < SIZE; i++){
 		selectGrid(i, j)->setValue(array[i + j*SIZE]);
@@ -107,3 +160,38 @@ Board2048::Board2048(int array[]){
 	}
 	}
 }
+
+bool Board2048::generate(){
+
+	int k = 0;
+	for (int j = 0; j < SIZE; j++){
+	for (int i = 0; i < SIZE; i++){
+
+		if (selectGrid(i, j)->getValue() == 0)
+		{
+			k++;
+		}
+
+	}
+	}
+
+	int which = rand()%k+1;
+	k = 0;
+	for (int j = 0; j < SIZE; j++){
+	for (int i = 0; i < SIZE; i++){
+		if (selectGrid(i, j)->getValue() == 0)
+		{
+			k++;
+			if (which == k) 
+			{
+				selectGrid(i, j)->setValue(twopower(rand()%2+1));
+				return true;
+			}
+
+		}
+
+	}
+	}
+
+}
+

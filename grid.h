@@ -19,7 +19,7 @@ class Grid {
 public:
 	//return grid saved value
 	int getValue(){
-		return value;
+		if(this) return value;
 	}
 
 	//set value to n
@@ -66,7 +66,7 @@ class Board2048 {
 public:
 	bool moveALL(dir where);
 	void print();
-	Board2048(int array[]);
+	void reset();
 
 private:
 	Grid *selectGrid(int x, int y){
@@ -76,9 +76,10 @@ private:
 	bool merge(Grid* here, Grid* there);
 
 	bool move(Grid* here, Grid* there);
-	//delete this grid
-	//maybe useless
-	bool del(int x, int y);
+
+	bool generate();	
+
+	bool isEnd();
 
 	Grid board[SIZE * SIZE];
 

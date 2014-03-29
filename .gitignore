@@ -1,5 +1,4 @@
 *.sublime*
 *.o
-ref/*
 .tag*
 2048

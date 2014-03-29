@@ -1,6 +1,7 @@
 #pragma once
 #include "grid.h"
 #include <iostream>
+#include <iomanip>
 
 using namespace std;
 
@@ -26,7 +27,7 @@ bool Board2048::moveALL(dir where){
 		while(1){
 			neighbor = now->getNeighbor(TO);
 			if (!neighbor) {
-				cout << "now = " << now << endl;
+				//cout << "now = " << now << endl;
 				break;
 			}
 
@@ -78,7 +79,8 @@ bool Board2048::move(Grid* here, Grid* there){
 void Board2048::print(){
 	for (int j = 0; j < SIZE; j++){
 		for (int i = 0; i < SIZE; i++){
-		cout << selectGrid(i, j)->getValue() << " ";
+			if (selectGrid(i, j)->getValue() == 0) cout << setw(2) << " □ ";
+			else cout << setw(2) << selectGrid(i, j)->getValue() << " ";
 		}
 		cout << endl;
 	}

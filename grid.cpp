@@ -11,30 +11,40 @@ bool Board2048::moveALL(dir where){
 		for(int j = 0; j < SIZE; j++)
 		{
 			Grid *now = selectGrid(0, j);
-			Grid *neighbor = now->getNeighbor(RIGHT);
-			for(int i = 0; i < 4; i++){
+			Grid *neighbor;
+			for (int i = 0; i < SIZE-1; i++){
 
 				neighbor = now->getNeighbor(RIGHT);
+				
+				cout << "now = " << now << endl;
+				cout << "neighbor = " << neighbor << endl;
+				
+				cout << "now value = " << now->getValue() << endl;
+				cout << "neighbor value = " << neighbor->getValue() << endl;
 
-				if(!(neighbor->canMove(LEFT)) )
-				{
-					if (neighbor->getValue() == now->getValue()){
-						merge(now, neighbor);
-						now = neighbor;
-					}
-				}
-				else if(neighbor->canMove(LEFT))
+				if (neighbor->canMove(LEFT))
 				{
 					move(now, neighbor);
-					now = neighbor;
+					cout << "move!" << endl;
 				}
+
+				else
+				{
+					if (neighbor->getValue() == now->getValue()){
+						if (merge(now, neighbor))
+							cout << "merge!" << endl;
+					}
+				}
+				now = neighbor;
+				cout << endl << endl << endl;
+				
 			}
 		}
 	}
 }  
 
 bool Board2048::merge(Grid* here, Grid* there){
-	if(here != NULL || there == NULL) 
+	if(here == NULL || there == NULL) 
 		return false;
 	else{
 		here->setValue(here->getValue()*2);
@@ -44,7 +54,7 @@ bool Board2048::merge(Grid* here, Grid* there){
 }
 
 bool Board2048::move(Grid* here, Grid* there){
-	if(here != NULL || there == NULL) 
+	if(here == NULL || there == NULL) 
 		return false;
 	else{
 		here->setValue(there->getValue());

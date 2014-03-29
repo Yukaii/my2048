@@ -1,10 +1,3 @@
----
-layout: post
-title: '第二篇 - 嘗試實作Threes!/ 1024 /2048'
-date: 2014-03-29 20:17
-comments: true
-categories: [threes!, 2048, game, implement, programming, Toys]
----
 不得不提，Logdown自動產生英文網址實在太猛了，不用反觀了沒一個能打的=w=
 
 今天花了一點時間嘗試實作最近 ~~SITCON~~ 很紅的遊戲[Threes!][1]以及各種衍生 ~~致敬~~ 版本（像[1024][2]啦、[2048][3]、[服貿2048](http://a0tim.github.io/)等等）。雖然一如往常的需要時間Debug，好說歹說也做出一個簡單的樣子了。其實只要搞懂規則，剩下來就看個人造化了。以下由規則切入演算法（大概），來吧。
@@ -78,7 +71,6 @@ categories: [threes!, 2048, game, implement, programming, Toys]
 
 目前遊戲內容還沒啥營養，純文字介面而已，「有空」套上 [SDL](http://www.libsdl.org/)，再加強一下，唉。
 
-![螢幕擷圖存為 2014-03-29 21:20:44.png](http://user-image.logdown.io/user/1128/blog/1112/post/191665/RfwWbqoDSH21fl6E7isW_%E8%9E%A2%E5%B9%95%E6%93%B7%E5%9C%96%E5%AD%98%E7%82%BA%202014-03-29%2021:20:44.png)
 
 [1]:https://itunes.apple.com/us/app/threes!/id779157948?mt=8&ign-mpt=uo%3D2
 [2]:https://itunes.apple.com/us/app/1024!/id823499224
